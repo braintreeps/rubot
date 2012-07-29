@@ -1,0 +1,4 @@
+---
+testbot:
+  :jabber_id: testbot@yourjabberserver.example.com
+  :password: yourtestbotpass

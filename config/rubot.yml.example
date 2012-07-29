@@ -1,0 +1,7 @@
+---
+:rubot:
+  :name: 'rubot'
+  :jabber_id: 'rubot@yourjabberserver.example.com'
+  :password: 'rubotpass'
+  :master: 'yourmaster@yourjabberserver.example.com'
+  :is_public: true

@@ -53,6 +53,24 @@ module Rubot
       message
     end
 
+    bot.add_command(
+      :syntax => "who's on <environment>",
+      :description => "find out who's using an environment",
+      :regex => /^who's on\s+(.+)$/,
+      :is_public => true
+    ) do |sender, message|
+      index_response = RestClient.get 'http://localhost:3000/environments.json'
+      environments_index = JSON.parse(index_response.body)
+      environment = environments_index.select{|env| env['name'] == message}.first
+      message = ''
+      if environment['reserved_by'].strip == ''
+          message += "#{environment['name']} is not reserved\n"
+      else
+          message += "#{environment['reserved_by']} is on #{environment['name']} since #{environment['updated_at']}\n"
+      end
+      message
+    end
+
     bot.connect
   end
 end

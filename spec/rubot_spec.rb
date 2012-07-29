@@ -33,4 +33,23 @@ describe Rubot do
       received_messages.first.should include('qa was reserved by whoever')
     end
   end
+
+  describe "who's on" do
+    it 'responds with the status of an environment' do
+      env_status = [{
+        :id => 1,
+        :name => 'qa',
+        :reserved_by => 'whoever',
+        :updated_at => Time.now
+      }]
+      stub_request(:get, 'http://localhost:3000/environments.json').to_return(:body => env_status.to_json)
+
+      TestBot.deliver('rubot@braintreepayments.com', "who's on qa")
+      sleep 5
+
+      received_messages = TestBot.received_messages.map(&:body)
+      received_messages.length.should == 1
+      received_messages.first.should include('whoever is on qa since')
+    end
+  end
 end
